@@ -7,6 +7,19 @@ function App() {
 	const [todo, setTodo] = useState('');
 	const [todos, setTodos] = useState([]);
 
+	useEffect(() => {
+		// Load todos from local storage when the component mounts
+		const storedTodos = localStorage.getItem('todos');
+		if (storedTodos) {
+			setTodos(JSON.parse(storedTodos));
+		}
+	}, []); // Only run this effect once, on mount
+
+	useEffect(() => {
+		// Save todos to local storage whenever the todos state changes
+		localStorage.setItem('todos', JSON.stringify(todos));
+	}, [todos]); // Run this effect whenever todos changes
+
 	const addTodo = () => {
 		if (todo !== '') {
 			setTodos([...todos, todo]);
